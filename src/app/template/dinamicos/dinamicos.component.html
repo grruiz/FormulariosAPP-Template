@@ -1,1 +1,81 @@
-<p>dinamicos works!</p>
+<h2>Template: <small>Dinamicos</small></h2>
+<hr />
+
+<form (ngSubmit)="guardar()" autocomplete="off" #miFormulario="ngForm">
+    <!-- nombre -->
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">Nombre</label>
+        <div class="col-sm-9">
+            <input class="form-control"
+                    placeholder="Nombre de la persona"
+                    [ngModel]="persona.nombre"
+                    name="nombre"
+                    required>
+            <span class="form-text text-danger"
+                    *ngIf="miFormulario.controls.nombre?.errors && miFormulario.controls.nombre?.touched">
+                    Introduce un nombre mayor a 3 letras
+                </span>
+        </div>
+    </div>
+    <!-- agregar juego -->
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">Agregar</label>
+        <div class="col-sm-9">
+            <div class="input-group">
+                <input class="form-control"
+                        [(ngModel)]="nuevoJuego"
+                        name="nuevoJuego"
+                        (keyup.enter)="agregarJuego()"
+                        placeholder="Agregar favorito">
+                <button class="btn btn-outline-primary"
+                        type="button"
+            
+                        (click)="agregarJuego()">
+                    Agregar
+                </button>
+                </div>
+        </div>
+    </div>
+        <!-- lista de juegos favorita -->
+        <div class="mb-3 row">
+            <label class="col-sm-3 col-form-label">Favoritos</label>
+            <div class="col-sm-9  mb-1">
+                <div class="input-group" *ngFor="let juego of persona.favoritos; let i=index">
+                    <input  [(ngModel)]="juego.nombre"
+                            name="favorito_{{ i }}"
+                            class="form-control"
+                            required>
+                    <button class="btn btn-outline-danger"
+                            type="button"
+                            (click)="eliminar(i)">
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <button type="button"
+                    class="btn btn-primary float-end"
+                    (click)="guardar()"
+                    [disabled]="miFormulario.invalid">Guardar</button>
+        </div>
+    </div>
+    
+</form>
+
+<div class="row">
+    <div class="col">
+        <span>Persona</span>
+        <pre>{{persona | json}}</pre>
+        <span>Valid</span>
+        <pre>{{miFormulario.valid}}</pre>
+        <span>Pristine</span>
+        <pre>{{miFormulario.pristine}}</pre>
+        <span>Touched</span>
+        <pre>{{miFormulario.touched}}</pre>
+        <span>Value</span>
+        <pre>{{miFormulario.value | json}}</pre>
+        <span>CustomDirective</span>
+        <pre>{{miFormulario.controls.existencias?.errors | json}}</pre>
+    </div>
